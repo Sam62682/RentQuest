@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Home Details</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home_css.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/update_home_detail.css') }}">
+</head>
+
+<body>
+    <header>
+        <div id="profile">
+            <div class="profile-card">
+                <div class="profile-picture">
+                    <img id="profileImage" src="{{ profile_image }}" alt="Profile Picture" onclick="openModal();">
+                </div>
+                <h2 id="displayUsername">{{ room.username }}</h2>
+            </div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/Admin_home">Home</a></li>
+                <li><a href="/Add_home_detail">Add Home Detail</a></li>
+            </ul>
+        </nav>
+        <div id="logout">
+            <a href="/admin_logout"><button class="btn btn-primary">Logout</button></a>
+        </div>
+    </header>
+
+    <h2>Update Room Details</h2>
+    <div class="container">
+        <form id="roomForm" method="post" action="{{ url_for('Update_home_detail', room_id=room.id) }}"
+            enctype="multipart/form-data">
+            <label for="roomName">Room Name:</label>
+            <input type="text" id="roomName" name="room_name" value="{{ room.room_name }}" required>
+
+            <label for="room_for" class="room_for">Room For (boys/girls/family)</label>
+            <select name="room_for" class="room_for" required>
+                <option value="">select</option>
+                <option value="boys" {% if room.room_for=='boys' %}selected{% endif %}>Boys</option>
+                <option value="girls" {% if room.room_for=='girls' %}selected{% endif %}>Girls</option>
+                <option value="family" {% if room.room_for=='family' %}selected{% endif %}>Family</option>
+            </select>
+            
+            <label for="address">House Address:
+                <div id="addressdetail">
+                    <div>
+                        <span> House No :</span> <input type="number" id="House_no" name="House_no" class="add" value="{{room.address.House_no}}" min="1"
+                            required>
+
+                    </div>
+                    <div>
+                        <span>Street : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span> <input type="text" id="street" name="street" class="add" value="{{room.address.street}}" required>
+
+                    </div>
+                    <div>
+                        <span> village/city : &nbsp;</span> <input type="text" id="vill_city" name="vill_city" class="add" value="{{room.address.vill_city}}"
+                            required>
+
+                    </div>
+                    <div>
+                        <span>District : &nbsp;&nbsp;&nbsp;&nbsp;</span> <input type="text" id="district" name="district" class="add" value="{{room.address.district}}" required>
+
+                    </div>
+                    <div>
+                        <span>State :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><input type="text" id="state" name="state" class="add" value="{{room.address.state}}" required>
+
+                    </div>
+                    <div>
+                        <span>Pin Code : </span> <input type="number" id="pin_code" name="pin_code" class="add" value="{{room.address.pin_code}}"
+                            required>
+
+                    </div>
+                </div>
+            </label>
+
+            <label for="price">Monthly Rent:</label>
+            <input type="number" id="price" name="price" value="{{room.price}}" required>
+
+            <label for="deposit">Security Deposit:</label>
+            <input type="number" id="deposit" name="deposit" value="{{room.deposit}}" required> 
+
+            <label for="leaseDuration">Lease Duration (months):</label>
+            <input type="number" id="leaseDuration" name="leaseDuration" value="{{room.leaseDuration}}" max="12" min="0" required>
+
+            <label for="utilities">Included Utilities:</label>
+            <input type="text" id="utilities" name="utilities" value="{{room.utilities}}" required>
+
+            <label for="bedrooms">Number of Bedrooms:</label>
+            <input type="number" id="bedrooms" name="bedrooms" value="{{room.bedrooms}}" required>
+
+            <label for="bathrooms">Number of Bathrooms:</label>
+            <input type="number" id="bathrooms" name="bathrooms" value="{{room.bathrooms}}" required>
+
+            <label for="parking">Parking Availability:</label>
+            <input type="text" id="parking" name="parking" value="{{room.parking}}" required>
+
+            <label for="contactName">Owner/Manager Name:</label>
+            <input type="text" id="contactName" name="contactName" value="{{room.contactName}}" required>
+
+            <label for="contactEmail">Contact Email:</label>
+            <input type="email" id="contactEmail" name="contactEmail" value="{{room.contactEmail}}" required>
+
+            <label for="contactPhone">Contact Phone:</label>
+            <input type="text" id="contactPhone" name="contactPhone" value="{{room.contactPhone}}" required>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{ room.location }}" required>
+
+            <label for="description">Description:</label>
+            <textarea id="description" rows="4" name="description" required>{{ room.description }}</textarea>
+
+            <label for="imageInput">Room Image:</label>
+            <input type="file" id="imageInput" name="images" multiple accept="image/*">
+            <div class="gallery" id="gallery"></div>
+
+            {% if room.images %}
+            <div class="existing-images">
+                {% for img in room.images %}
+                <img src="{{ img }}" alt="Room Image" height="150" style="margin-right: 10px; border-radius: 5px;">
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <button type="submit">Update Room</button>
+        </form>
+    </div>
+    <script>
+            document.getElementById('imageInput').addEventListener('change', function(event) {
+            const gallery = document.getElementById('gallery');
+            gallery.innerHTML = ''; // Clear previous images
+
+            const files = event.target.files; // Get the selected files
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+
+            // Check if the file is an image
+            if (file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+
+            // Create an image element to display
+            reader.onload = function(e) {
+                        const img = document.createElement('img');
+            img.src = e.target.result; // Set the image source to the file's data URL
+            img.alt = 'Room Image';
+            img.style.height = '150px'; // Set desired height
+            img.style.marginRight = '10px'; // Space between images
+            img.style.borderRadius = '5px'; // Add some styling
+            gallery.appendChild(img); // Append the image to the gallery
+                    }
+
+            reader.readAsDataURL(file); // Read the file as a data URL
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

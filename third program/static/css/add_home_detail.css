@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0px;
+}
+
+.container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.gallery {
+    display: flex;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 20px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.gallery img {
+    height: 150px;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+.total {
+    margin-top: 10px;
+    font-size: 1.2em;
+}
+
+.nav-button {
+    cursor: pointer;
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f0f0f0;
+}
+
+.nav-link.active {
+    text-decoration: none;
+}
+
+
+.room_for {
+    display: inline;
+    height: 28px;
+}
+
+#logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logout a {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background-color: #c3eef7;
+}
+
+#roomForm {
+    width: 44%;
+}
+
+.add {
+    width: 65%;
+    /* display: block; */
+}
+
+#addressdetail {
+    display: flex;
+    flex-direction: column;
+    /* justify-content: start; */
+    /* align-items: center; */
+}

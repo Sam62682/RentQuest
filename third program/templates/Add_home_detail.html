@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Home Details</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home_css.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/add_home_detail.css')}}">
+</head>
+
+<body>
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal();">&times;</span>
+            <h2>Upload New Profile Picture</h2>
+            <form id="uploadForm" action="{{ url_for('upload_profile_picture_for_admin') }}" method="POST"
+                enctype="multipart/form-data">
+                <input class="bu" type="file" name="file" id="fileInput" accept="image/*" required>
+                <button class="bu" type="submit">Save</button>
+                <button class="bu" type="button" onclick="closeModal()">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <header>
+        <div class="head" id="profile">
+            <div class="profile-card" id="profileCard">
+                <div class="profile-picture">
+                    <img id="profileImage" src="{{ profile_image }}" alt="Profile Picture" onclick="openModal();">
+                </div>
+                <h2 id="displayUsername">{{ username }}</h2>
+            </div>
+        </div>
+        <div class="head" id="navig">
+            <ul>
+                <ul>
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-3 py-lg-4 active" id="adm_home" href="/Admin_home"
+                            onclick="setActive('adm_home')">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-3 py-lg-4" id="Add_h_d" style="text-decoration: underline;" href="/Add_home_detail"
+                            onclick="setActive('Add_h_d')">Add Home Detail</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-lg-3 py-3 py-lg-4" id="Add_h_d" href="/requested_room"
+                            onclick="setActive('Req_r')">Requested Room</a>
+                    </li>
+                </ul>
+            </ul>
+        </div>
+        <div class="head" id="logout">
+            <a href="/admin_logout"><button class="btn btn-primary">Logout</button></a>
+        </div>
+    </header>
+    <h2>Add Room Details</h2>
+    <div class="container">
+        <form id="roomForm" method="post" action="{{ url_for('Add_home_detail') }}" enctype="multipart/form-data">
+            <label for="roomName">Room Name:</label>
+            <input type="text" id="roomName" name="room_name" required>
+
+            <label for="room_for" class="room_for">Type of Room: (boys/girls/family)</label>
+            <select name="room_for" class="room_for" name="room_for">
+                <option value="default">select</option>
+                <option value="boys">Boys</option>
+                <option value="girls">Girls</option>
+                <option value="family">Family</option>
+            </select>
+
+            <label for="address">House Address:
+                <div id="addressdetail">
+                    <div>
+                        <span> House No :</span> <input type="number" id="House_no" name="House_no" class="add" min="1"
+                            required>
+
+                    </div>
+                    <div>
+                        <span>Street : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span> <input type="text" id="street" name="street" class="add" required>
+
+                    </div>
+                    <div>
+                        <span> village/city : &nbsp;</span> <input type="text" id="vill_city" name="vill_city" class="add"
+                            required>
+
+                    </div>
+                    <div>
+                        <span>District : &nbsp;&nbsp;&nbsp;&nbsp;</span> <input type="text" id="district" name="district" class="add" required>
+
+                    </div>
+                    <div>
+                        <span>State :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><input type="text" id="state" name="state" class="add" required>
+
+                    </div>
+                    <div>
+                        <span>Pin Code : </span> <input type="number" id="pin_code" name="pin_code" class="add"
+                            required>
+
+                    </div>
+                </div>
+            </label>
+
+            <label for="price">Monthly Rent:</label>
+            <input type="number" id="price" name="price" required>
+
+            <label for="deposit">Security Deposit:</label>
+            <input type="number" id="deposit" name="deposit" required> 
+
+            <label for="leaseDuration">Lease Duration (months):</label>
+            <input type="number" id="leaseDuration" name="leaseDuration" max="12" min="0" required>
+
+            <label for="utilities">Included Utilities:</label>
+            <input type="text" id="utilities" name="utilities" required>
+
+            <label for="bedrooms">Number of Bedrooms:</label>
+            <input type="number" id="bedrooms" name="bedrooms" required>
+
+            <label for="bathrooms">Number of Bathrooms:</label>
+            <input type="number" id="bathrooms" name="bathrooms" required>
+
+            <label for="parking">Parking Availability:</label>
+            <input type="text" id="parking" name="parking" required>
+
+            <label for="contactName">Owner/Manager Name:</label>
+            <input type="text" id="contactName" name="contactName" required>
+
+            <label for="contactEmail">Contact Email:</label>
+            <input type="email" id="contactEmail" name="contactEmail" required>
+
+            <label for="contactPhone">Contact Phone:</label>
+            <input type="text" id="contactPhone" name="contactPhone" required>
+
+            <label for="location">Location:</label>
+            <a href="https://www.google.com/maps/@21.2005591,81.6082612,9z?entry=ttu&g_ep=EgoyMDI0MTAxNS4wIKXMDSoASAFQAw%3D%3D"><button type="button">map</button></a>
+            <input type="text" id="location" name="location" required>
+
+            <label for="description">Other Information:</label>
+            <textarea id="description" rows="4" name="description" required></textarea>
+
+            <label for="image">Room Image:</label>
+            <input type="file" id="imageInput" name="images" multiple accept="image/video/*">
+            <div class="gallery" id="gallery"></div>
+            <!-- <div class="total"><span id="imageCount"></span>
+            </div> -->
+
+            <button type="submit">Add Room</button>
+        </form>
+    </div>
+    <script src="{{ url_for('static', filename='js/add_home_detail.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/profilephoto.js')}}"></script>
+</body>
+
+</html>

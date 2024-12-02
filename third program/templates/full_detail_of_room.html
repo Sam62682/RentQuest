@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Detail of Room</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home_css.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/imageslider.css') }}">
+  <style>
+    .gal {
+      display: block;
+      width: 200px;
+      height: 200px;
+      margin: 10px;
+    }
+
+    .gallery {
+      /* border: 2px solid black; */
+      width: 70vw;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .room_detail {
+      /* border: 2px solid black; */
+      padding: 10px;
+      margin: 5px;
+      width: 70%;
+
+    }
+
+    .room-box {
+      /* border: 2px solid black; */
+      display: flex;
+      flex-direction: column;
+    }
+
+    #room-name {
+      text-align: center;
+      width: 100%;
+      padding-top: 0;
+      padding-bottom: 0;
+      text-transform: uppercase;
+      border-bottom: 2px solid black;
+    }
+
+    #logout {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #logout a {
+      border: 2px solid transparent;
+      border-radius: 10px;
+      background-color: #c3eef7;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="uploadModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal();">&times;</span>
+      <h2>Upload New Profile Picture</h2>
+      <form id="uploadForm" action="{{ url_for('upload_profile_picture_for_admin') }}" method="POST"
+        enctype="multipart/form-data">
+        <input class="bu" type="file" name="file" id="fileInput" accept="image/*" required>
+        <button class="bu" type="submit">Save</button>
+        <button class="bu" type="button" onclick="closeModal()">Cancel</button>
+      </form>
+    </div>
+  </div>
+
+  <header>
+    <div class="head" id="profile">
+      <div class="profile-card" id="profileCard">
+        <div class="profile-picture">
+          <img id="profileImage" src="{{ profile_image }}" alt="Profile Picture" onclick="openModal();">
+        </div>
+        <h2 id="displayUsername">{{ username }}</h2>
+      </div>
+    </div>
+    <div class="head" id="navig">
+      <ul>
+        <li class="nav-item">
+          <a class="nav-link px-lg-3 py-3 py-lg-4 active" id="adm_home" href="/Admin_home"
+            onclick="setActive('adm_home')" style="background-color: transparent;">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link px-lg-3 py-3 py-lg-4" id="Add_h_d" href="/Add_home_detail"
+            onclick="setActive('Add_h_d')">Add Home Detail</a>
+        </li>
+      </ul>
+    </div>
+    <div class="head" id="logout">
+      <a href="/admin_logout"><button class="btn btn-primary">Logout</button></a>
+    </div>
+  </header>
+
+  <h1>Full Detail of Room</h1>
+  <div id="container">
+    <div class="slideshow-container">
+      {% if room.images %}
+      {% for image in room.images %}
+      <div class="mySlides fade">
+        <img src="{{ image }}" alt="{{ room.room_name }} Image">
+      </div>
+      {% endfor %}
+      {% endif %}
+
+      <a class="prev" onclick="plusSlides(-1)">❮</a>
+      <a class="next" onclick="plusSlides(1)">❯</a>
+    </div>
+    <br>
+
+    <div style="text-align:center; margin-bottom: 17px;">
+      {% if room.images %}
+      {% for i in range(room.images|length) %}
+      <span class="dot" onclick="currentSlide( i + 1 )"></span>
+      {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="container">
+    {% if room %}
+    <div class="room-box">
+      <div class="room_detail" id="room-name">
+        <h1>{{ room.room_name }}</h1>
+      </div>
+      <div class="room_detail" id="room-type"><strong>Type of Room: </strong>{{ room.room_for }}</div>
+      <div class="room_detail" id="room-address"><strong>Address: </strong>{{ room.address.House_no }}, {{
+        room.address.street }}, {{ room.address.vill_city }}, {{ room.address.district }}, {{ room.address.state }},
+        {{ room.address.pin_code }}</div>
+      <div class="room_detail" id="room-rent"><strong>Monthly Rent: </strong>{{ room.price }}</div>
+      <div class="room_detail" id="room-deposit"><strong>Security Deposit: </strong>{{ room.deposit }}</div>
+      <div class="room_detail" id="room-leaseDuration"><strong>Lease Duration (months): </strong>{{ room.leaseDuration
+        }}</div>
+      <div class="room_detail" id="room-utilities"><strong>Included Utilities: </strong>{{ room.utilities }}</div>
+      <div class="room_detail" id="room-bedrooms"><strong>Number of Bedrooms: </strong>{{ room.bedrooms }}</div>
+      <div class="room_detail" id="room-bathrooms"><strong>Number of Bathrooms: </strong>{{ room.bathrooms }}</div>
+      <div class="room_detail" id="room-parking"><strong>Parking Availability: </strong>{{ room.parking }}</div>
+      <div class="room_detail" id="room-contactName"><strong>Owner/Manager Name: </strong>{{ room.contactName }}</div>
+      <div class="room_detail" id="room-contactEmail"><strong>Contact Email: </strong>{{ room.contactEmail }}</div>
+      <div class="room_detail" id="room-contactPhone"><strong>Contact Phone Number: </strong>{{ room.contactPhone }}
+      </div>
+      <div class="room_detail" id="room-location"><p><strong>Location: </strong></p><a href="{{room.location}}"><iframe src="{{room.location}}" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></a></div>
+      <div class="room_detail" id="room-otherinformation"><strong>Other Information: </strong>{{ room.description }}
+      </div>
+      <div class="room_detail" id="room-image">
+        <strong>Room Images:</strong>
+        <div class="gallery">
+          {% for image in room.images %}
+          <a href="{{ image }}"><img class="gal" src="{{ image }}" alt="{{ room.room_name }} Image"></a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    {% else %}
+    <div class="no-rooms-message">
+      <p>No room details available.</p>
+    </div>
+    {% endif %}
+    <div id="up_de">
+      <a href="/Update_home_detail/{{ room.id }}">
+        <button>Update</button>
+      </a>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/imageslider.js')}}"></script>
+  <script>
+    let slideIndex = 1;
+    showSlides(slideIndex);
+    function showSlides(n) {
+      // Your existing showSlides function
+    }
+    function plusSlides(n) {
+      // Your existing plusSlides function
+    }
+    function currentSlide(n) {
+      // Your existing currentSlide function
+    }
+  </script>
+  <script src="{{ url_for('static', filename='js/profilephoto.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/imageslider.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/add_home_detail.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/Add_image.js') }}"></script>
+</body>
+
+</html>

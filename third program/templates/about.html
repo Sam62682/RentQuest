@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | RentQuest</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about.css')}}">
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <h1>RentQuest</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about" style="text-decoration: underline;">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/Admin_login">Home Owner Login</a></li>
+                <li><a href="/User_login">User Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="about-content">
+        <h2>Our Mission</h2>
+        <p>RentQuest is designed to simplify the process of finding rental properties. Whether you’re looking
+            for a house, apartment, or shared room, our goal is to provide a comprehensive and easy-to-navigate platform
+            that connects renters with property owners.</p>
+
+        <h2>Why Choose Us?</h2>
+        <ul>
+            <li><strong>Wide Selection:</strong> A variety of properties to suit your needs, budget, and preferred
+                location.</li>
+            <li><strong>User-Friendly:</strong> An intuitive interface that makes it easy to search, filter, and find
+                homes.</li>
+            <li><strong>Verified Listings:</strong> Each listing is reviewed to ensure it meets our quality and
+                authenticity standards.</li>
+        </ul>
+
+        <h2>Features</h2>
+        <ul>
+            <li>Advanced search options by location, price, property type, and more.</li>
+            <li>Comprehensive property details, including photos, amenities, and proximity to local attractions.</li>
+            <li>Secure messaging between renters and property owners for safer interactions.</li>
+        </ul>
+
+        <h2>Our Team</h2>
+        <p>Our team is dedicated to making the rental process easier for everyone involved. We work hard to ensure that
+            all information on our site is up-to-date, reliable, and useful for your rental journey.</p>
+
+        <h2>Contact Us</h2>
+        <p>Have any questions or feedback? Visit our <a href="/contact">Contact</a> page, and let us know how we can
+            help.</p>
+    </section>
+
+    <footer>
+        <p>&copy; 2023 RentQuest. All rights reserved.</p>
+    </footer>
+
+</body>
+
+</html>

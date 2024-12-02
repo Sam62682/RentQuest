@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requested Rooms</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home_css.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Admin_home.css') }}">
+    <style>
+        .request-card {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .request-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .request-card h2 {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #007BFF;
+        }
+
+        .request-card img {
+            display: block;
+            margin: 10px auto;
+            border-radius: 8px;
+            object-fit: cover;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #ccc;
+        }
+
+        .request-card .room-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 10px 0;
+        }
+
+        .request-card .room-details {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .request-card .room-details strong {
+            color: #333;
+        }
+
+        .request-card .room-price {
+            font-size: 16px;
+            color: #28a745;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .request-card h3 {
+            font-size: 18px;
+            color: #007BFF;
+            margin: 15px 0 10px;
+        }
+
+        .request-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .request-card ul li {
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            border: 1px solid #eee;
+        }
+
+        .request-card ul li p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .request-card ul li p strong {
+            color: #333;
+        }
+
+        .request-card p {
+            margin: 10px 0;
+            color: #555;
+        }
+    </style>
+
+</head>
+
+<body>
+    <header>
+        <div class="profile-card" id="profile">
+            <div class="profile-picture">
+                <img id="profileImage" src="{{ profile_image }}" alt="{{ profile_image if profile_image else url_for('static', filename='img/download.png') }}" onclick="openModal();">
+            </div>
+            <h2 id="displayUsername">{{ username }}</h2>
+        </div>
+        <div class="navbar" id="navig">
+            <ul>
+                <li><a id="adm_home" href="/Admin_home" onclick="setActive('adm_home')">Home</a></li>
+                <li><a id="Add_h_d" href="/Add_home_detail" onclick="setActive('Add_h_d')">Add Home Detail</a></li>
+                <li><a id="Req_r" style="text-decoration: underline;" href="/requested_room" onclick="setActive('Req_r')">Requested Room</a></li>
+            </ul>
+        </div>
+        <div>
+            <a href="/"><button class="btn-logout">Logout</button></a>
+        </div>
+    </header>
+
+    <div class="request-list">
+        {% if rooms %}
+        {% for room in rooms %}
+        <div class="request-card">
+            <h2>Room Details</h2>
+            <img src="{{ room.images[0] }}" alt="{{ room.room_name }} Image" width="100" height="100">
+            <div class="room-name">{{ room.room_name }}</div>
+            <div class="room-details"><strong>Type of Room: </strong> {{ room.room_for }}</div>
+            <div class="room-details"><strong>Location: </strong> {{ room.address.House_no }}, {{ room.address.street }}, {{ room.address.vill_city }}, {{ room.address.district }}, {{ room.address.state }}, {{ room.address.pin_code }}</div>
+            <div class="room-price"><strong>Price: </strong> &#8377;{{ room.price }}/month</div>
+
+            <h3>Requested By:</h3>
+            {% if room.requested_by %}
+            <ul>
+                {% for user in room.requested_by %}
+                <li>
+                    <p><strong>Name:</strong> {{ user.username }}</p>
+                    <p><strong>Email:</strong> {{ user.email }}</p>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <p>No users have requested this room yet.</p>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% else %}
+        <p>No requested rooms available.</p>
+        {% endif %}
+    </div>
+    <footer>
+        <p>&copy; 2024 Room Rental System. All rights reserved.</p>
+    </footer>
+    <script src="{{url_for('static', filename='js/Add_image.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin_home_js.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin_home.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/profilephoto.js')}}"></script>
+</body>
+
+</html>

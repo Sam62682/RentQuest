@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Form</title>
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" />
+  <style>
+    #form {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <div class="title"><span>Register Now</span></div>
+      <form action="{{ url_for('Admin_register') }}" method="post" id="form">
+        <div class="row">
+          <input type="text" placeholder="Full Name" name="fullname" id="fullname" required
+            value="{{ request.form.get('fullname', '') }}">
+        </div>
+        <div class="row">
+          <input type="text" placeholder="User Name" name="username" id="username" required
+            value="{{ request.form.get('username', '') }}">
+        </div>
+        <div class="row">
+          <input type="password" placeholder="Password" name="password" id="password" required
+            value="{{ request.form.get('password', '') }}">
+        </div>
+        <div class="row">
+          <input type="email" placeholder="Email Address" name="email" id="email" required
+            value="{{ request.form.get('email', '') }}">
+        </div>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="flash-message">
+          {% for category, message in messages %}
+          <div class="{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+
+        {% endif %}
+        {% endwith %}
+
+        {% if show_otp %}
+        <div class="row">
+          <input type="text" placeholder="Enter OTP" name="otp" required>
+        </div>
+        <button type="submit" name="verify_otp">Verify OTP</button>
+        {% else %}
+        <button type="submit" name="send_otp">Send OTP</button>
+        <button type="submit" formaction="{{ url_for('register_admin') }}">Register</button>
+        {% endif %}
+      </form>
+
+</body>
+
+</html>

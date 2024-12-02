@@ -1,0 +1,202 @@
+#logout {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logout a {
+    border: 2px solid transparent;
+    border-radius: 10px;
+    background-color: #c3eef7;
+}
+
+#roomlist {
+    color: black;
+    text-decoration: none;
+    /* display: flex; */
+
+}
+
+#con {
+    display: flex;
+}
+
+.nav-link {
+    text-decoration: none;
+    /* Remove default underline */
+}
+
+.nav-link.active {
+    text-decoration: underline;
+    /* Add underline for active link */
+}
+
+.container {
+    height: 100%;
+    width: 100%;
+    border: 2px solid black;
+    display: flex;
+    flex-direction: row;
+    margin: 20px
+}
+
+.room-box {
+    width: 300px;
+    height: fit-content;
+    /* Set a fixed width for room boxes */
+    margin: 10px;
+    /* Add space between room boxes */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Optional: add some shadow for a card effect */
+    border-radius: 10px;
+    /* Optional: round the corners */
+    overflow: hidden;
+    /* Prevent overflow */
+    background-color: #fff;
+    /* Optional: background color for contrast */
+    transition: transform 0.2s;
+    /* Optional: smooth transition on hover */
+}
+
+.room-box:hover {
+    transform: scale(1.05);
+    /* Optional: scale up on hover */
+}
+
+.room-box img {
+    width: 100%;
+    /* Ensure the image fills the box */
+    height: auto;
+    /* Maintain aspect ratio */
+}
+
+.room-name,
+.room-details,
+.room-price {
+    padding: 2px;
+    /* Add padding for text elements */
+}
+
+/* Modal Styles */
+#uploadModal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bu {
+    display: inline;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    /* Adjust spacing between boxes */
+}
+
+.room-box {
+    border: 1px solid #ccc;
+    /* Optional: border for better visibility */
+    border-radius: 8px;
+    /* Optional: rounded corners */
+    overflow: hidden;
+    /* Prevents overflow of child elements */
+    width: 300px;
+    /* Set a fixed width for room boxes */
+    padding: 15px;
+    /* Padding inside the box */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    /* Optional: shadow effect */
+}
+
+.room-box img {
+    width: 100%;
+    /* Make the image responsive */
+    height: auto;
+    /* Maintain aspect ratio */
+}
+
+.room-name {
+    font-size: 1.2em;
+    /* Adjust font size */
+    font-weight: bold;
+    /* Make it bold */
+    margin: 10px 0;
+    /* Spacing above and below */
+}
+
+.room-details {
+    margin: 5px 0;
+    /* Spacing between details */
+    word-wrap: break-word;
+    /* Prevent long text from overflowing */
+}
+
+.room-price {
+    font-size: 1.1em;
+    /* Slightly larger font for price */
+    color: #333;
+    /* Darker color for emphasis */
+}
+
+#up_de {
+    margin-top: 10px;
+    /* Spacing above the update button */
+    text-align: right;
+    /* Align the button to the right */
+}
+
+button {
+    background-color: #115cab;
+    /* Button color */
+    color: white;
+    /* Button text color */
+    border: none;
+    /* No border */
+    padding: 5px 15px;
+    /* Button padding */
+    border-radius: 5px;
+    /* Rounded corners for button */
+    cursor: pointer;
+    /* Change cursor on hover */
+}
+
+button:hover {
+    background-color: #0056b3;
+    /* Darker blue on hover */
+}
+#up_de a button:hover{
+    transform: scale(1.05);
+    /* Optional: scale up on hover */
+}

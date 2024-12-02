@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RentQuest</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home_css.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Admin_home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_page.css')}}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/imageslider.css') }}">
+</head>
+
+<body>
+    <!-- Header Section -->
+    <header>
+        <div class="logo">
+            <h1>RentQuest</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/" style="text-decoration: underline;">Home</a></li>
+                <li><a href="{{url_for('about')}}">About</a></li>
+                <li><a href="{{url_for('contact')}}">Contact</a></li>
+                <li><a href="{{url_for('Admin_login')}}">Home Owner Login</a></li>
+                <li><a href="{{url_for('User_login')}}">User Login</a></li>
+            </ul>
+        </nav>
+    </header>
+    <h1>Search Room</h1>
+    <form method="POST" action="{{url_for('searched_home')}}">
+        <input type="text" name="query" placeholder="Enter search term" required>
+        <button type="submit">Search</button>
+    </form>
+    <div id="container">
+        <div class="slideshow-container">
+            {% for room in rooms %}
+            {% if room.images and room.images|length > 0 %}
+            <div class="mySlides fade">
+                <img src="{{ room.images[0] }}" style="width:100%">
+            </div>
+            {% endif %}
+            {% endfor %}
+
+            <a class="prev" onclick="plusSlides(-1)">❮</a>
+            <a class="next" onclick="plusSlides(1)">❯</a>
+        </div>
+        <br>
+
+        <div style="text-align:center; margin-bottom: 17px;">
+            {% for room in rooms %}
+            {% if room.images and room.images|length > 0 %}
+            <span class="dot" onclick="currentSlide({{ loop.index }})"></span>
+            {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- Home Listings Section -->
+    <div class="cate">
+        <h3>Categories according to family Type</h3>
+    </div>
+    <div class="container">
+        <div class="home-listings">
+            {% for room in room_type %}
+            <div class="room-box">
+                <a href="{{ url_for('full_detail', room_id=room.id) }}" id="roomlist">
+                    <img src="{{ room.images[0] }}" alt="{{ room.room_name }} Image">
+                    <div class="room-name">{{ room.room_name }}</div>
+                    <div class="room-details"><strong>Type of Room: </strong> {{ room.room_for }}</div>
+                    <div class="room-details"><strong>Location: </strong> {{ room.address.House_no }}, {{
+                        room.address.street }}, {{ room.address.vill_city }}, {{ room.address.district }}, {{
+                        room.address.state }}, {{ room.address.pin_code }}</div>
+                    <div class="room-price"><strong>Price: </strong> &#8377;{{ room.price }}/month</div>
+                </a>
+                <form method="POST" action="{{ url_for('toggle_favorite_status', room_id=room.id) }}">
+                    {% if session.get('user') %}
+                        {% if room.favorite %}
+                            <button type="submit" style="color: red;">&#9733; Unfavorite</button>
+                        {% else %}
+                            <button type="submit">&#9734; Add to Favorite</button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('User_login') }}">
+                            <button type="button">&#9734; Add to Favorite</button>
+                        </a>
+                    {% endif %}
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+    <div class="cate">
+        <h3>Categories according to Chhattisgarh State</h3>
+    </div>
+    <div class="container">
+        <div class="home-listings">
+            {% for room in state %}
+            <div class="room-box">
+                <a href="{{ url_for('full_detail', room_id=room.id) }}" target="_blank" id="roomlist">
+                    <img src="{{ room.images[0] }}" alt="{{ room.room_name }} Image">
+                    <div class="room-name">{{ room.room_name }}</div>
+                    <div class="room-details"><strong>Type of Room: </strong> {{ room.room_for }}</div>
+                    <div class="room-details"><strong>Location: </strong> {{ room.address.House_no }}, {{
+                        room.address.street }}, {{ room.address.vill_city }}, {{ room.address.district }}, {{
+                        room.address.state }}, {{ room.address.pin_code }}</div>
+                    <div class="room-price"><strong>Price: </strong> &#8377;{{ room.price }}/month</div>
+                </a>
+                <form method="POST" action="{{ url_for('toggle_favorite_status', room_id=room.id) }}">
+                    {% if session.get('user') %}
+                        {% if room.favorite %}
+                            <button type="submit" style="color: red;">&#9733; Unfavorite</button>
+                        {% else %}
+                            <button type="submit">&#9734; Add to Favorite</button>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('User_login') }}">
+                            <button type="button">&#9734; Add to Favorite</button>
+                        </a>
+                    {% endif %}
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 RentQuest. All rights reserved.</p>
+    </footer>
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            const slides = document.getElementsByClassName("mySlides");
+            const dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1; }
+            if (n < 1) { slideIndex = slides.length; }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>
+    <script src="{{url_for('static', filename='js/Add_image.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin_home_js.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin_home.js')}}"></script>
+</body>
+
+</html>

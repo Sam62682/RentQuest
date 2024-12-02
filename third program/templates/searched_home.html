@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Searched List</title>
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/Icon.png') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin_home_css.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/Admin_home.css') }}">
+</head>
+
+<body>
+    <header>
+        <div class="logo">
+            <h1>RentQuest</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="/Admin_login">Home Owner Login</a></li>
+                <li><a href="/User_login">User Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        {% for room in rooms %}
+        <div class="room-box">
+            <a href="{{ url_for('full_detail', room_id=room.id) }}" target="_blank" id="roomlist">
+                <img src="{{ room.images[0] }}" alt="{{ room.room_name }} Image">
+                <div class="room-name">{{ room.room_name }}</div>
+                <div class="room-details"><strong>Type of Room: </strong> {{ room.room_for }}</div>
+                <div class="room-details"><strong>Location: </strong> {{ room.address.House_no }}, {{
+                    room.address.street }}, {{ room.address.vill_city }}, {{ room.address.district }}, {{
+                    room.address.state }}, {{ room.address.pin_code }}</div>
+                <div class="room-price"><strong>Price: </strong> &#8377;{{ room.price }}/month</div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            const slides = document.getElementsByClassName("mySlides");
+            const dots = document.getElementsByClassName("dot");
+            if (n > slides.length) { slideIndex = 1; }
+            if (n < 1) { slideIndex = slides.length; }
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex - 1].style.display = "block";
+            dots[slideIndex - 1].className += " active";
+        }
+    </script>
+    <script src="{{url_for('static', filename='js/Add_image.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin_home_js.js')}}"></script>
+    <script src="{{url_for('static', filename='js/admin_home.js')}}"></script>
+</body>
+
+</html>
